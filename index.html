@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Хвостик — зоомагазин</title>
+<meta name="description" content="Хвостик — корм и аксессуары для собак, кошек, грызунов и птиц. Бесплатная доставка от 3 000 ₽.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14264d; --ink-soft:#4a5a7d; --bg:#fffaf0; --card:#ffffff; --line:#e6dfcf;
+  --accent:#ffc83d; --accent-ink:#14264d; --sale:#ff6b57; --ok:#2f9e6b;
+  --dog:#ffd9c2; --cat:#e4d9ff; --rodent:#cdf2de; --bird:#cfe7ff;
+  --shadow:0 6px 24px rgba(20,38,77,.10);
+  --radius:20px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#f3efe4; --ink-soft:#b7bfd4; --bg:#0f1830; --card:#182444; --line:#2a3860;
+    --accent:#ffc83d; --accent-ink:#14264d; --sale:#ff7d6b;
+    --dog:#5a3a2f; --cat:#41386a; --rodent:#24523f; --bird:#24476e;
+    --shadow:0 6px 24px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Onest,system-ui,sans-serif;
+  padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+h1,h2,h3{font-family:Unbounded,Onest,sans-serif;line-height:1.15;margin:0}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 16px}
+section{padding:56px 0}
+.sec-title{font-size:clamp(24px,4vw,34px);margin-bottom:8px}
+.sec-sub{color:var(--ink-soft);margin:0 0 28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;
+  background:var(--accent);color:var(--accent-ink);font-weight:600;padding:12px 20px;border-radius:999px;
+  text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;border:2px solid var(--ink);color:var(--ink)}
+.btn.small{padding:8px 14px;font-size:14px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top)}
+.bar{display:flex;align-items:center;gap:16px;height:64px}
+.logo{font-family:Unbounded;font-weight:700;font-size:20px;text-decoration:none;display:flex;gap:8px;align-items:center}
+nav{margin-left:auto;display:flex;gap:18px}
+nav a{text-decoration:none;font-weight:500;color:var(--ink-soft)}
+nav a:hover{color:var(--ink)}
+.cart-btn{position:relative;background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:10px 16px;
+  cursor:pointer;font-weight:600;display:flex;gap:8px;align-items:center}
+.cart-btn .count{background:var(--accent);color:var(--accent-ink);border-radius:999px;min-width:22px;height:22px;
+  display:grid;place-items:center;font-size:13px;padding:0 6px}
+@media(max-width:860px){nav{display:none}.cart-btn{margin-left:auto}}
+
+/* hero */
+.hero{padding:40px 0 24px}
+.hero-top{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
+.hero h1{font-size:clamp(30px,6vw,52px)}
+.hero h1 em{font-style:normal;background:var(--accent);color:var(--accent-ink);padding:0 10px;border-radius:12px}
+.hero p.lead{font-size:18px;color:var(--ink-soft);max-width:520px;margin:16px 0 0}
+.hero-art{display:flex;gap:8px;justify-content:center}
+.hero-art svg{width:48%;max-width:220px;height:auto}
+@media(max-width:760px){.hero-top{grid-template-columns:1fr}.hero-art{order:-1}}
+.pets{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}
+@media(max-width:760px){.pets{grid-template-columns:repeat(2,1fr)}}
+.pet{border:3px solid transparent;border-radius:var(--radius);padding:20px 12px;cursor:pointer;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:6px;transition:transform .15s,box-shadow .15s}
+.pet:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:var(--shadow)}
+.pet .em{font-size:44px;line-height:1}
+.pet b{font-family:Unbounded;font-size:16px}
+.pet small{color:var(--ink-soft)}
+.pet[aria-pressed="true"]{border-color:var(--ink)}
+.pet[data-pet=dog]{background:var(--dog)}.pet[data-pet=cat]{background:var(--cat)}
+.pet[data-pet=rodent]{background:var(--rodent)}.pet[data-pet=bird]{background:var(--bird)}
+.pet b,.pet small{color:#14264d}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .pet b,:root:not([data-theme="light"]) .pet small{color:#f3efe4}}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+@media(max-width:760px){.facts{grid-template-columns:1fr}}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+.fact span{font-size:26px}
+
+/* catalog */
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;cursor:pointer;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tools input[type=search],.tools select{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:10px 16px}
+.tools input[type=search]{flex:1;min-width:180px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.card .img{height:140px;display:grid;place-items:center;font-size:64px;position:relative}
+.card[data-pet=dog] .img{background:var(--dog)}.card[data-pet=cat] .img{background:var(--cat)}
+.card[data-pet=rodent] .img{background:var(--rodent)}.card[data-pet=bird] .img{background:var(--bird)}
+.badge{position:absolute;top:10px;left:10px;background:var(--sale);color:#fff;font-weight:700;font-size:13px;border-radius:999px;padding:3px 10px}
+.card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{font-family:Onest;font-size:17px;font-weight:600}
+.card p{margin:0;color:var(--ink-soft);font-size:14px;flex:1}
+.price{display:flex;align-items:baseline;gap:8px;margin-top:6px}
+.price b{font-family:Unbounded;font-size:18px}
+.price s{color:var(--ink-soft);font-size:14px}
+.empty{text-align:center;padding:40px 0;color:var(--ink-soft)}
+
+/* promos */
+.promos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.promo{border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.promo h3{font-size:20px}
+.promo p{margin:0}
+.promo:nth-child(1){background:var(--sale);color:#fff}
+.promo:nth-child(2){background:var(--accent);color:var(--accent-ink)}
+.promo:nth-child(3){background:var(--bird);color:#14264d}
+.promo:nth-child(1) .btn{background:#fff;color:#14264d}
+.promo:nth-child(2) .btn,.promo:nth-child(3) .btn{background:#14264d;color:#fff}
+code{background:rgba(0,0,0,.12);padding:2px 8px;border-radius:6px;font-weight:700}
+
+/* how */
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.how div{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.how span{font-size:32px}
+.how h3{font-size:17px;margin:8px 0 4px}
+.how p{margin:0;color:var(--ink-soft);font-size:15px}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.review{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:8px}
+.stars{color:#f5a623;letter-spacing:2px;font-size:18px}
+.review p{margin:0}
+.review small{color:var(--ink-soft)}
+.review .who{font-weight:600}
+
+/* map */
+.where{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:start}
+@media(max-width:860px){.where{grid-template-columns:1fr}}
+.map{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.map svg{display:block;width:100%;height:auto}
+.tips{display:flex;flex-direction:column;gap:12px}
+.tips div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.tips b{display:block}
+
+footer{background:var(--ink);color:var(--bg);padding:40px 0 calc(40px + env(safe-area-inset-bottom))}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) footer{background:#0a1124;color:#f3efe4}}
+.foot{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+footer h3{font-size:16px;margin-bottom:8px}
+footer p{margin:4px 0;opacity:.85}
+
+/* cart drawer */
+.overlay{position:fixed;inset:0;background:rgba(10,17,36,.55);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+.overlay.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--bg);z-index:50;
+  transform:translateX(100%);transition:transform .3s;display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-shadow:var(--shadow)}
+.drawer.open{transform:none}
+.d-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.d-head h2{font-size:20px}
+.icon-btn{background:none;border:0;cursor:pointer;font-size:24px;padding:4px 10px;border-radius:8px}
+.d-body{flex:1;overflow:auto;padding:16px 20px}
+.line{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.line .ic{font-size:30px;text-align:center}
+.line b{font-weight:600;font-size:15px;display:block}
+.qty{display:flex;align-items:center;gap:6px;margin-top:4px}
+.qty button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer}
+.line .rm{background:none;border:0;cursor:pointer;color:var(--ink-soft);font-size:13px;text-decoration:underline}
+.ship{margin:12px 0}
+.ship .track{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+.ship .fill{height:100%;background:var(--ok);width:0;transition:width .3s}
+.promo-row{display:flex;gap:8px;margin-top:12px}
+.promo-row input{flex:1;border:2px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;text-transform:uppercase}
+.msg{font-size:14px;min-height:20px;margin-top:6px}
+.msg.err{color:var(--sale)}.msg.ok{color:var(--ok)}
+.d-foot{padding:16px 20px;border-top:1px solid var(--line)}
+.sum{display:flex;justify-content:space-between;margin:4px 0}
+.sum.total{font-family:Unbounded;font-size:18px;margin-top:8px}
+form.order{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+form.order label{font-size:14px;font-weight:600}
+form.order input{width:100%;border:2px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;margin-top:4px}
+.done{text-align:center;padding:40px 10px}
+.done .big{font-size:56px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);
+  padding:10px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top"><span aria-hidden="true">🐾</span> Хвостик</a>
+    <nav aria-label="Основная навигация">
+      <a href="#catalog" data-cat="food">Корм</a>
+      <a href="#catalog" data-cat="acc">Аксессуары</a>
+      <a href="#promo">Акции</a>
+      <a href="#how">Доставка</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#where">Как добраться</a>
+    </nav>
+    <button class="cart-btn" id="openCart" aria-label="Открыть корзину">🛒 Корзина <span class="count" id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <h1>Всё для вашего <em>хвостатого</em> друга</h1>
+        <p class="lead">Корм и аксессуары для собак, кошек, грызунов и птиц. Выберите питомца — покажем подходящие товары.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <!-- щенок -->
+        <svg viewBox="0 0 200 220">
+          <ellipse cx="100" cy="205" rx="70" ry="10" fill="#14264d" opacity=".12"/>
+          <ellipse cx="45" cy="80" rx="26" ry="48" fill="#a8653a" transform="rotate(18 45 80)"/>
+          <ellipse cx="155" cy="80" rx="26" ry="48" fill="#a8653a" transform="rotate(-18 155 80)"/>
+          <circle cx="100" cy="100" r="62" fill="#e8b27d"/>
+          <ellipse cx="100" cy="125" rx="34" ry="26" fill="#fff3e0"/>
+          <circle cx="78" cy="92" r="9" fill="#14264d"/><circle cx="122" cy="92" r="9" fill="#14264d"/>
+          <circle cx="81" cy="89" r="3" fill="#fff"/><circle cx="125" cy="89" r="3" fill="#fff"/>
+          <ellipse cx="100" cy="114" rx="12" ry="8" fill="#14264d"/>
+          <path d="M100 122v10M88 134q12 10 24 0" stroke="#14264d" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M92 140q8 22 16 0z" fill="#ff7b8a"/>
+          <ellipse cx="100" cy="188" rx="40" ry="22" fill="#e8b27d"/>
+        </svg>
+        <!-- котёнок -->
+        <svg viewBox="0 0 200 220">
+          <ellipse cx="100" cy="205" rx="70" ry="10" fill="#14264d" opacity=".12"/>
+          <path d="M42 70 52 18 88 46z" fill="#9aa3b5"/><path d="M158 70 148 18 112 46z" fill="#9aa3b5"/>
+          <path d="M54 56 58 34 74 48z" fill="#ffb3c1"/><path d="M146 56 142 34 126 48z" fill="#ffb3c1"/>
+          <circle cx="100" cy="100" r="62" fill="#b8c0d0"/>
+          <path d="M88 44q-4 14 0 22M100 40v26M112 44q4 14 0 22" stroke="#7d869a" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="78" cy="96" rx="11" ry="13" fill="#9be07a"/><ellipse cx="122" cy="96" rx="11" ry="13" fill="#9be07a"/>
+          <ellipse cx="78" cy="96" rx="4" ry="11" fill="#14264d"/><ellipse cx="122" cy="96" rx="4" ry="11" fill="#14264d"/>
+          <path d="M94 116h12l-6 8z" fill="#ff8aa0"/>
+          <path d="M100 124q-10 12-22 4M100 124q10 12 22 4" stroke="#14264d" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M60 112l-34-6M60 120l-34 6M140 112l34-6M140 120l34 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <ellipse cx="100" cy="188" rx="40" ry="22" fill="#b8c0d0"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="pets" role="group" aria-label="Выберите питомца">
+      <button class="pet" data-pet="dog" aria-pressed="false"><span class="em">🐶</span><b>Собаки</b><small>корм и игрушки</small></button>
+      <button class="pet" data-pet="cat" aria-pressed="false"><span class="em">🐱</span><b>Кошки</b><small>корм и когтеточки</small></button>
+      <button class="pet" data-pet="rodent" aria-pressed="false"><span class="em">🐹</span><b>Грызуны</b><small>домики и корм</small></button>
+      <button class="pet" data-pet="bird" aria-pressed="false"><span class="em">🦜</span><b>Птицы</b><small>смеси и клетки</small></button>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><span>🚚</span><div>Бесплатная доставка от 3 000 ₽</div></div>
+      <div class="fact"><span>↩️</span><div>Возврат нераспечатанного корма 14 дней</div></div>
+      <div class="fact"><span>📞</span><div>Консультация по рациону по телефону</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<section id="catalog">
+  <div class="wrap">
+    <h2 class="sec-title">Каталог</h2>
+    <p class="sec-sub">Корм и аксессуары — фильтруйте, ищите, сортируйте.</p>
+    <div class="tools">
+      <div class="chips" id="catChips" role="group" aria-label="Категория">
+        <button class="chip" data-cat="all" aria-pressed="true">Все</button>
+        <button class="chip" data-cat="food" aria-pressed="false">Корм</button>
+        <button class="chip" data-cat="acc" aria-pressed="false">Аксессуары</button>
+        <button class="chip" data-sale="1" aria-pressed="false">Со скидкой</button>
+      </div>
+      <input type="search" id="q" placeholder="Поиск по названию…" aria-label="Поиск">
+      <select id="sort" aria-label="Сортировка">
+        <option value="pop">Сначала популярные</option>
+        <option value="asc">Дешевле</option>
+        <option value="desc">Дороже</option>
+      </select>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>
+      <p>Ничего не найдено.</p>
+      <button class="btn" id="reset">Сбросить фильтры</button>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO -->
+<section id="promo">
+  <div class="wrap">
+    <h2 class="sec-title">Акции</h2>
+    <p class="sec-sub">Выгодно — для вас и вашего питомца.</p>
+    <div class="promos">
+      <div class="promo">
+        <h3>Хиты недели со скидкой</h3>
+        <p>Скидки до −20% на популярные товары.</p>
+        <button class="btn" id="showSale">Смотреть товары</button>
+      </div>
+      <div class="promo">
+        <h3>−10% на первый заказ</h3>
+        <p>Введите промокод в корзине: <code>HELLO10</code></p>
+        <button class="btn" id="copyPromo">Скопировать</button>
+      </div>
+      <div class="promo">
+        <h3>Бесплатная доставка от 3 000 ₽</h3>
+        <p>Курьер в день заказа при оформлении до 15:00.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="wrap">
+    <h2 class="sec-title">Как мы работаем</h2>
+    <p class="sec-sub">Просто, быстро и без сюрпризов.</p>
+    <div class="how">
+      <div><span>🚚</span><h3>Доставка</h3><p>Курьером по городу, бесплатно от 3 000 ₽. Заказ до 15:00 — привезём сегодня.</p></div>
+      <div><span>🌾</span><h3>Свежесть корма</h3><p>Берём небольшие партии и следим за сроками годности.</p></div>
+      <div><span>💬</span><h3>Помощь с выбором</h3><p>Позвоните — подберём рацион под возраст и породу питомца.</p></div>
+      <div><span>↩️</span><h3>Обмен</h3><p>Нераспечатанный корм можно вернуть в течение 14 дней.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="wrap">
+    <h2 class="sec-title">Отзывы покупателей</h2>
+    <p class="sec-sub">Тестовые отзывы для прототипа.</p>
+    <div class="reviews" id="revList"></div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section id="where">
+  <div class="wrap">
+    <h2 class="sec-title">Как добраться</h2>
+    <p class="sec-sub">Заходите в гости — мы рядом с метро.</p>
+    <div class="where">
+      <div class="map">
+        <svg viewBox="0 0 600 380" role="img" aria-label="Схема проезда от метро до магазина Хвостик">
+          <rect width="600" height="380" fill="#dff3e4"/>
+          <rect x="0" y="150" width="600" height="46" fill="#fff"/>
+          <rect x="380" y="0" width="40" height="380" fill="#fff"/>
+          <path d="M0 173H600M400 0V380" stroke="#f0d98a" stroke-width="3" stroke-dasharray="14 10"/>
+          <rect x="40" y="40" width="120" height="80" rx="10" fill="#c9e6d0"/>
+          <rect x="190" y="50" width="150" height="70" rx="10" fill="#c9e6d0"/>
+          <rect x="450" y="40" width="110" height="80" rx="10" fill="#c9e6d0"/>
+          <rect x="40" y="230" width="180" height="100" rx="10" fill="#c9e6d0"/>
+          <rect x="250" y="230" width="100" height="100" rx="10" fill="#c9e6d0"/>
+          <rect x="450" y="230" width="110" height="100" rx="10" fill="#c9e6d0"/>
+          <!-- маршрут -->
+          <path d="M90 173H400V280" stroke="#ff6b57" stroke-width="5" stroke-dasharray="4 10" stroke-linecap="round" fill="none"/>
+          <circle cx="90" cy="173" r="22" fill="#e53935"/><text x="90" y="180" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">M</text>
+          <text x="90" y="212" text-anchor="middle" font-size="14" font-weight="600" fill="#14264d">метро</text>
+          <rect x="230" y="120" width="26" height="26" rx="6" fill="#14264d"/><text x="243" y="139" text-anchor="middle" font-size="14" fill="#fff">A</text>
+          <text x="243" y="112" text-anchor="middle" font-size="13" fill="#14264d">остановка</text>
+          <circle cx="400" cy="290" r="24" fill="#ffc83d" stroke="#14264d" stroke-width="3"/>
+          <text x="400" y="298" text-anchor="middle" font-size="22">🐾</text>
+          <text x="400" y="332" text-anchor="middle" font-size="15" font-weight="700" fill="#14264d">Хвостик</text>
+          <text x="240" y="162" font-size="13" fill="#14264d">ул. Лесная</text>
+          <text x="412" y="80" font-size="13" fill="#14264d">пер. Тихий</text>
+        </svg>
+      </div>
+      <div class="tips">
+        <div><b>📍 Адрес</b>г. Москва, ул. Лесная, 12 (тестовый адрес)</div>
+        <div><b>🕘 Часы работы</b>Ежедневно, 9:00–21:00</div>
+        <div><b>🚇 На метро</b>От метро — 7 минут пешком по ул. Лесной, затем поверните на пер. Тихий.</div>
+        <div><b>🚌 На автобусе</b>До остановки «Лесная», далее 2 минуты пешком.</div>
+        <div><b>🚗 На машине</b>Парковка во дворе, въезд с пер. Тихого.</div>
+        <a class="btn" target="_blank" rel="noopener" href="https://yandex.ru/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9B%D0%B5%D1%81%D0%BD%D0%B0%D1%8F%2C%2012">Построить маршрут</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div><h3>🐾 Хвостик</h3><p>Зоомагазин для всей семьи.</p></div>
+    <div><h3>Контакты</h3><p>г. Москва, ул. Лесная, 12</p><p>+7 (495) 000-00-00</p><p>hello@khvostik.example</p></div>
+    <div><h3>Оплата и обмен</h3><p>Оплата при получении или картой.</p><p>Возврат нераспечатанного корма — 14 дней.</p></div>
+  </div>
+</footer>
+
+<!-- CART -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Корзина" aria-hidden="true">
+  <div class="d-head"><h2>Корзина</h2><button class="icon-btn" id="closeCart" aria-label="Закрыть корзину">✕</button></div>
+  <div class="d-body" id="dBody"></div>
+  <div class="d-foot" id="dFoot"></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const PETS={dog:'Собаки',cat:'Кошки',rodent:'Грызуны',bird:'Птицы'};
+const PRODUCTS=[
+ {id:1,t:'Корм для взрослых собак, 3 кг',d:'Курица и рис, полнорационный.',p:1190,old:1490,pet:'dog',cat:'food',e:'🍖',pop:10},
+ {id:2,t:'Корм для щенков, 2 кг',d:'С индейкой, для роста и иммунитета.',p:1090,pet:'dog',cat:'food',e:'🥩',pop:8},
+ {id:3,t:'Влажный корм для кошек, 12 шт.',d:'Кусочки в желе, с говядиной.',p:790,old:990,pet:'cat',cat:'food',e:'🐟',pop:9},
+ {id:4,t:'Сухой корм для котят, 1,5 кг',d:'С лососем и витаминами.',p:950,pet:'cat',cat:'food',e:'🥣',pop:7},
+ {id:5,t:'Корм для хомяков и крыс, 800 г',d:'Зерно, овощи и орехи.',p:420,pet:'rodent',cat:'food',e:'🌰',pop:5},
+ {id:6,t:'Сено для кроликов, 1 кг',d:'Луговое, без пыли.',p:360,pet:'rodent',cat:'food',e:'🌾',pop:4},
+ {id:7,t:'Зерновая смесь для попугаев, 500 г',d:'Просо, овёс, канареечное семя.',p:320,old:400,pet:'bird',cat:'food',e:'🌻',pop:6},
+ {id:8,t:'Минеральный камень для птиц',d:'Источник кальция для клюва.',p:150,pet:'bird',cat:'food',e:'🪨',pop:2},
+ {id:9,t:'Лежанка мягкая, размер M',d:'Моющийся чехол, нескользящее дно.',p:1890,old:2390,pet:'dog',cat:'acc',e:'🛏️',pop:9},
+ {id:10,t:'Мячик с пищалкой',d:'Прочная резина, для игр и дрессировки.',p:240,old:300,pet:'dog',cat:'acc',e:'🎾',pop:8},
+ {id:11,t:'Поводок-рулетка, 5 м',d:'Лёгкая ручка и фиксатор.',p:690,pet:'dog',cat:'acc',e:'🦮',pop:6},
+ {id:12,t:'Когтеточка-столбик',d:'Джут, устойчивая база.',p:1290,old:1590,pet:'cat',cat:'acc',e:'🐾',pop:9},
+ {id:13,t:'Миска керамическая',d:'Нескользящая, для кошек и мелких собак.',p:380,pet:'cat',cat:'acc',e:'🥣',pop:4},
+ {id:14,t:'Игрушка-мышка с кошачьей мятой',d:'Набор из 3 штук.',p:270,pet:'cat',cat:'acc',e:'🐭',pop:5},
+ {id:15,t:'Колесо для хомяка',d:'Бесшумное, диаметр 18 см.',p:540,pet:'rodent',cat:'acc',e:'🎡',pop:5},
+ {id:16,t:'Домик деревянный',d:'Для хомяков и мышей.',p:490,pet:'rodent',cat:'acc',e:'🏠',pop:3},
+ {id:17,t:'Клетка для птиц',d:'С жёрдочками и кормушками.',p:2490,pet:'bird',cat:'acc',e:'🪺',pop:6},
+ {id:18,t:'Поилка автоматическая',d:'Не протекает, 250 мл.',p:210,pet:'bird',cat:'acc',e:'💧',pop:3}
+];
+const REVIEWS=[
+ {n:'Анна',pet:'Собака Бим',r:5,t:'Заказали корм и лежанку — привезли в тот же день. Бим в восторге!',b:'Корм для щенков, лежанка'},
+ {n:'Игорь',pet:'Кот Барсик',r:5,t:'Когтеточка выдержала все атаки, диван спасён.',b:'Когтеточка-столбик'},
+ {n:'Мария',pet:'Хомяк Пушок',r:4,t:'Колесо бесшумное, домик понравился. Хотелось бы больше расцветок.',b:'Колесо, домик'},
+ {n:'Сергей',pet:'Попугай Кеша',r:5,t:'Смесь свежая, Кеша ест с аппетитом. Консультация по телефону очень помогла.',b:'Смесь для попугаев'},
+ {n:'Ольга',pet:'Кошка Мурка',r:5,t:'Влажный корм по скидке, доставка бесплатная. Всё как обещали.',b:'Влажный корм'},
+ {n:'Дмитрий',pet:'Кролик Снежок',r:5,t:'Сено хорошее, без пыли. Буду заказывать ещё.',b:'Сено, поилка'}
+];
+const FREE=3000, PROMO='HELLO10';
+const fmt=n=>n.toLocaleString('ru-RU')+' ₽';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+let f={pet:null,cat:'all',sale:false,q:'',sort:'pop'};
+let cart={}, promoOn=false, step='cart';
+try{cart=JSON.parse(localStorage.getItem('khv_cart')||'{}');promoOn=localStorage.getItem('khv_promo')==='1'}catch(e){}
+const save=()=>{try{localStorage.setItem('khv_cart',JSON.stringify(cart));localStorage.setItem('khv_promo',promoOn?'1':'0')}catch(e){}};
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.k);toast.k=setTimeout(()=>t.classList.remove('show'),2200)}
+
+/* catalog */
+function renderCatalog(){
+  let list=PRODUCTS.filter(p=>
+    (!f.pet||p.pet===f.pet)&&(f.cat==='all'||p.cat===f.cat)&&(!f.sale||p.old)&&
+    (!f.q||(p.t+' '+p.d).toLowerCase().includes(f.q.toLowerCase())));
+  list.sort((a,b)=>f.sort==='asc'?a.p-b.p:f.sort==='desc'?b.p-a.p:b.pop-a.pop);
+  $('#grid').innerHTML=list.map(p=>`
+   <article class="card" data-pet="${p.pet}">
+    <div class="img" aria-hidden="true">${p.e}${p.old?`<span class="badge">−${Math.round((1-p.p/p.old)*100)}%</span>`:''}</div>
+    <div class="body"><h3>${p.t}</h3><p>${p.d}</p>
+    <div class="price"><b>${fmt(p.p)}</b>${p.old?`<s>${fmt(p.old)}</s>`:''}</div>
+    <button class="btn small" data-add="${p.id}">В корзину</button></div>
+   </article>`).join('');
+  $('#empty').hidden=list.length>0;
+  $$('.pet').forEach(b=>b.setAttribute('aria-pressed',f.pet===b.dataset.pet));
+  $$('#catChips .chip').forEach(c=>{
+    c.setAttribute('aria-pressed',c.dataset.sale?f.sale:c.dataset.cat===f.cat&&!(c.dataset.cat==='all'&&f.sale));
+  });
+}
+$$('.pet').forEach(b=>b.onclick=()=>{f.pet=f.pet===b.dataset.pet?null:b.dataset.pet;renderCatalog();
+  if(f.pet)$('#catalog').scrollIntoView({behavior:'smooth'})});
+$$('#catChips .chip').forEach(c=>c.onclick=()=>{
+  if(c.dataset.sale)f.sale=!f.sale;else f.cat=c.dataset.cat;renderCatalog()});
+$('#q').oninput=e=>{f.q=e.target.value;renderCatalog()};
+$('#sort').onchange=e=>{f.sort=e.target.value;renderCatalog()};
+$('#reset').onclick=()=>{f={pet:null,cat:'all',sale:false,q:'',sort:'pop'};$('#q').value='';$('#sort').value='pop';renderCatalog()};
+$$('nav a[data-cat]').forEach(a=>a.onclick=()=>{f.cat=a.dataset.cat;renderCatalog()});
+$('#showSale').onclick=()=>{f.sale=true;f.cat='all';renderCatalog();$('#catalog').scrollIntoView({behavior:'smooth'})};
+$('#copyPromo').onclick=async()=>{try{await navigator.clipboard.writeText(PROMO);toast('Промокод скопирован')}catch(e){toast('Промокод: '+PROMO)}};
+$('#grid').onclick=e=>{const b=e.target.closest('[data-add]');if(!b)return;
+  const id=b.dataset.add;cart[id]=(cart[id]||0)+1;save();renderCart();toast('Добавлено в корзину')};
+
+/* reviews */
+$('#revList').innerHTML=REVIEWS.map(r=>`<article class="review">
+  <div class="stars" aria-hidden="true">${'★'.repeat(r.r)}${'☆'.repeat(5-r.r)}</div>
+  <span class="sr" style="position:absolute;left:-9999px">Оценка ${r.r} из 5</span>
+  <p>${r.t}</p><div><span class="who">${r.n}</span> · <small>${r.pet}</small></div><small>Купили: ${r.b}</small></article>`).join('');
+
+/* cart */
+function totals(){
+  let sub=0,n=0;for(const id in cart){const p=PRODUCTS.find(x=>x.id==id);if(p){sub+=p.p*cart[id];n+=cart[id]}}
+  const disc=promoOn?Math.round(sub*.1):0;return{sub,n,disc,total:sub-disc};
+}
+function renderCart(){
+  const T=totals();$('#cartCount').textContent=T.n;
+  const body=$('#dBody'),foot=$('#dFoot');
+  if(step==='done'){
+    body.innerHTML=`<div class="done"><div class="big">🎉</div><h2>Спасибо за заказ!</h2><p>Мы свяжемся с вами для подтверждения.</p></div>`;
+    foot.innerHTML=`<button class="btn" id="doneBtn" style="width:100%">Закрыть</button>`;
+    $('#doneBtn').onclick=()=>{step='cart';closeCart();renderCart()};return;
+  }
+  if(!T.n){body.innerHTML=`<div class="empty">Корзина пуста 🐾</div>`;foot.innerHTML='';return}
+  const left=Math.max(0,FREE-(T.sub-T.disc));
+  body.innerHTML=Object.keys(cart).map(id=>{const p=PRODUCTS.find(x=>x.id==id);return `
+   <div class="line"><div class="ic">${p.e}</div>
+    <div><b>${p.t}</b><div class="qty"><button data-m="${id}" aria-label="Меньше">−</button><span>${cart[id]}</span><button data-pl="${id}" aria-label="Больше">+</button></div></div>
+    <div style="text-align:right"><b>${fmt(p.p*cart[id])}</b><br><button class="rm" data-rm="${id}">Удалить</button></div></div>`}).join('')+
+   `<div class="ship"><small>${left?`До бесплатной доставки ещё ${fmt(left)}`:'Доставка бесплатна 🎉'}</small>
+    <div class="track"><div class="fill" style="width:${Math.min(100,(T.sub-T.disc)/FREE*100)}%"></div></div></div>
+   <div class="promo-row"><input id="promoIn" placeholder="Промокод" aria-label="Промокод" value="${promoOn?PROMO:''}"><button class="btn small" id="promoBtn">Применить</button></div>
+   <div class="msg ${promoOn?'ok':''}" id="promoMsg">${promoOn?'Промокод применён: −10%':''}</div>`;
+  foot.innerHTML=`<div class="sum"><span>Товары</span><span>${fmt(T.sub)}</span></div>
+   ${T.disc?`<div class="sum"><span>Скидка по промокоду</span><span>−${fmt(T.disc)}</span></div>`:''}
+   <div class="sum"><span>Доставка</span><span>${left?'от 300 ₽':'бесплатно'}</span></div>
+   <div class="sum total"><span>Итого</span><span>${fmt(T.total)}</span></div>
+   <form class="order" id="orderForm" novalidate>
+    <label>Имя<input id="oName" autocomplete="name"></label>
+    <label>Телефон<input id="oPhone" type="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__"></label>
+    <div class="msg err" id="oErr" role="alert"></div>
+    <button class="btn" type="submit">Оформить заказ</button></form>`;
+  $('#promoBtn').onclick=()=>{
+    const v=$('#promoIn').value.trim().toUpperCase();
+    if(v===PROMO){promoOn=true;save();renderCart()}
+    else{promoOn=false;save();renderCart();const m=$('#promoMsg');m.className='msg err';m.textContent='Такого промокода нет. Проверьте написание.'}};
+  $('#orderForm').onsubmit=e=>{e.preventDefault();
+    const n=$('#oName').value.trim(),ph=$('#oPhone').value.replace(/\D/g,'');
+    if(!n){$('#oErr').textContent='Введите имя.';return}
+    if(ph.length<10){$('#oErr').textContent='В телефоне должно быть не меньше 10 цифр.';return}
+    cart={};promoOn=false;save();step='done';renderCart()};
+}
+$('#dBody').onclick=e=>{const t=e.target;
+  if(t.dataset.pl){cart[t.dataset.pl]++}
+  else if(t.dataset.m){if(--cart[t.dataset.m]<=0)delete cart[t.dataset.m]}
+  else if(t.dataset.rm){delete cart[t.dataset.rm]}else return;
+  save();renderCart()};
+function openCart(){$('#drawer').classList.add('open');$('#overlay').classList.add('open');$('#drawer').setAttribute('aria-hidden','false');$('#closeCart').focus()}
+function closeCart(){$('#drawer').classList.remove('open');$('#overlay').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true');$('#openCart').focus()}
+$('#openCart').onclick=openCart;$('#closeCart').onclick=closeCart;$('#overlay').onclick=closeCart;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#drawer').classList.contains('open'))closeCart()});
+
+renderCatalog();renderCart();
+</script>
+</body>
+</html>
